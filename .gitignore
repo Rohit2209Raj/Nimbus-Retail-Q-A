@@ -1,0 +1,10 @@
+# Environment variables
+.env
+.env.*
+
+# Virtual environment
+nimbus/
+.nimbus/
+env/
+
+docs/
