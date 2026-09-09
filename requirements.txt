@@ -1,3 +1,7 @@
 langchain-community
 langchain-huggingface
 langchain-text-splitters
+langchain-qdrant
+qdrant-client
+sentence-transformers
+python-dotenv
