@@ -97,14 +97,15 @@ def make_database(chunks):
     print("Created payload index: metadata.source")
 
     documents = [
-        Document(
-            page_content=item.page_content,
-            metadata={
-                "source": item.metadata['source']
-            }
-        )
-        for item in chunks
-    ]
+    Document(
+        page_content=item.page_content,
+        metadata={
+            "source": os.path.basename(item.metadata["source"]),
+            "chunk_id": f"chunk_{i}"
+        }
+    )
+    for i, item in enumerate(chunks)
+]
 
     print("Converted Chunks into LangChain Documents")
 
