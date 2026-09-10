@@ -5,3 +5,4 @@ langchain-qdrant
 qdrant-client
 sentence-transformers
 python-dotenv
+langchain-groq

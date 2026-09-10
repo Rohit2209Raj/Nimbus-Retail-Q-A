@@ -31,7 +31,7 @@ def load_documents():
 def make_chunks(documents):
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=700,
+        chunk_size=500,
         chunk_overlap = 50
     )
 
@@ -39,15 +39,6 @@ def make_chunks(documents):
 
     print(f'Created {len(chunks)} Chunks from docs')
 
-
-    i = 0
-
-    for chunk in chunks:
-        print('*'*50)
-        print(f'Chunk number {i+1}')
-        print(chunk.metadata['source'])
-        print('*'*50)
-        i=i+1
 
 
     return chunks
