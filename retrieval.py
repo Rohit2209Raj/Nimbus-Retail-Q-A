@@ -43,76 +43,6 @@ retriever = db.as_retriever(
     }
 )
 
-# def ask_query():
-
-#     chat_history='' 
-#     while True:
-#         query = input("Enter your query: ")
-#         print(type(query))
-#         if query.lower()=='exit':
-#             break
-#         if not chat_history:
-#             print("2nd block")
-#             query = query
-#         else:
-#             print("3rd block")
-#             new_content = query+chat_history
-#             query_formater = [
-#                         SystemMessage(
-#                             content='You are a query maker who takes current query and chat history and convert the query based on the chat history. put emphaisis on current query only. example it chat history contains info like quey was when ws google founded, then asnwer ''it was founded in 1998'' and another question ''who are its founder' 'and answer' 'sergery brin and laary page founded company in 1998' 'for hir question if i ask what its revenue then new query is whats google revuee not who is google founder,its reveune when was founded. put emphaisi on current question only'
-#                         ),
-#                         HumanMessage(
-#                             content=new_content
-#                         )
-#                     ]
-
-#             query=llm.invoke(query_formater).content
-
-#             print("Formated query..")
-#             print(query)
-
-#         chat_history+=f'query: {query}'
-#         print(f"\nOriginal Query: {query}")
-
-#         docs = retriever.invoke(query)
-
-#         context=""
-
-#         for i, doc in enumerate(docs, start=1):
-
-#             source = doc.metadata.get("source")
-#             content = doc.page_content
-
-#             context += f"""
-#         Source: {source}
-#         Content: {content}
-
-#         """
-
-#         prompt = f"""
-#         Answer the question using ONLY the information provided
-#         in the context.Also provide from which source you took the
-#         content from.Do not invent Sources.
-
-#         Context:
-#         {context}
-
-#         Question:
-#         {query}
-
-#         If the answer is not present in the context, say:
-
-#         "I don't know based on the provided information."
-#         """
-
-#         response = llm.invoke(prompt)
-
-#         print("\n================ FINAL ANSWER ================")
-
-#         print(response.content)
-#         chat_history+=f'response: {response}'
-
-
 def ask_query():
 
     chat_history = []
@@ -195,21 +125,23 @@ Content: {content}
         # ---------------- ANSWER GENERATION ----------------
 
         prompt = f"""
-Answer the question using ONLY the information provided
-in the context.
 
-Also provide the source from which the information was taken.
-Do not invent sources.
+Question:
+
+{formatted_query}
+
+Answer the question using ONLY the information provided in the context.
+
+Rules:
+1. If the context contains information that directly or clearly supports the answer, answer the question using that information.
+2. Do not require the context to use the exact same wording as the question. Treat synonyms and closely related terms as equivalent when the meaning is clear.
+3. If the question asks for a specific detail that is not stated or cannot be reasonably determined from the context, say:
+"I don't know based on the provided information."
+4. Do not invent, assume, or add information that is not supported by the context.
+5. Prefer a concise answer and mention the relevant source when possible.
 
 Context:
 {context}
-
-Question:
-{formatted_query}
-
-If the answer is not present in the context, say:
-
-"I don't know based on the provided information."
 """
 
         response = llm.invoke(prompt)
