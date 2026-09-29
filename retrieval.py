@@ -158,5 +158,9 @@ Context:
         chat_history.append(
             AIMessage(content=response.content)
         )
-ask_query()
+# ask_query()
+
+
+if __name__ == "__main__":
+    ask_query()
 
